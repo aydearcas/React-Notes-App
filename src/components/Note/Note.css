@@ -1,0 +1,19 @@
+.Note {
+  background-color: #fff38a;
+  margin: auto;
+  max-width: 20%;
+  overflow: hidden;
+  padding: 5px 10px;
+  text-align: left;
+  margin-bottom: 8px;
+  box-shadow: 2px 2px 5px rgb(45, 45, 45),
+              -2px 2px 5px rgb(45, 45, 45);
+}
+
+h1 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 14px;
+}
