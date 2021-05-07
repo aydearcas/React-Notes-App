@@ -1,6 +1,7 @@
 import './App.css';
 import {Note} from './components/Note/Note.js'
-import {useState} from 'react';
+import axios from 'axios';
+import {useState, useEffect} from 'react';
 
 
 function App() {
@@ -11,24 +12,32 @@ function App() {
   const [currentNote, setCurrentNote] = useState(
     {
       id: notes.length + 1 ,
-      title: '',
-      message: '',
-      date: new Date().toISOString()
+      content: '',
+      important: false,
+      // date: new Date().toISOString()
     }
   );
 
-  const handleTitleChange = event => {
+  useEffect(() => {
+    axios.get('https://enigmatic-inlet-03024.herokuapp.com/api/notes')
+    .then(response => {
+      const { data } = response
+      setNotes(data);
+    });
+  }, []);
+
+ /*  const handleTitleChange = event => {
     setCurrentNote({
       ...currentNote,
       title: event.target.value
     });
-  };
+  }; */
 
 
-  const handleMessageChange = event => {
+  const handleContentChange = event => {
     setCurrentNote({
       ...currentNote,
-      message: event.target.value
+      content: event.target.value
     });
   };
 
@@ -45,6 +54,9 @@ function App() {
     alert ('You need to input a title and a message')
   }
 
+  setCurrentNote({
+    content: ''
+  });
   }
 
   return (
@@ -52,14 +64,13 @@ function App() {
       
       {
       notes.length > 0 ?
-      notes.map(note => (<Note key={note.id} title={note.title} message={note.message} />))
+      notes.map(note => (<Note key={note.id} content={note.content} important={note.important} />))
       : <div className="no-notes"> No hay notas que mostrar </div>
       
       }
-
+    
       <form onSubmit={handleSubmit}>
-        <input type='text' placeholder='Title' value={currentNote.title} onChange={handleTitleChange} />
-        <input type='text' placeholder='Write your note' value={currentNote.message} onChange={handleMessageChange} />
+        <input type='text' placeholder='Write your note' value={currentNote.content} onChange={handleContentChange} />
         <button>Add Note</button>
       </form>
 
